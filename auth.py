@@ -24,105 +24,102 @@ def show_login_page():
     st.markdown(
         """
         <style>
-            /* Esconder a sidebar na página de login */
             [data-testid="stSidebar"] {
                 display: none;
             }
 
-            /* Fundo totalmente branco */
             html, body, .stApp, [data-testid="stAppViewContainer"] {
-                background-color: #FFFFFF !important;
+                background: linear-gradient(
+                    180deg,
+                    #CDBBFF 0%,
+                    #DED5FF 28%,
+                    #F4F1FF 58%,
+                    #FFFFFF 100%
+                ) !important;
                 color: #111111 !important;
             }
 
             [data-testid="stHeader"] {
-                background-color: #FFFFFF !important;
+                background: transparent !important;
             }
 
             .block-container {
-                padding-top: 70px;
-                max-width: 850px;
+                padding-top: 95px !important;
+                max-width: 1400px !important;
             }
 
-            /* Card principal */
-            .login-card {
-                background-color: #FFFFFF !important;
-                padding: 40px 44px;
-                border-radius: 26px;
-                border: 1px solid #E5E7EB;
-                box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+            .welcome-title {
+                text-align: center;
+                font-size: 34px;
+                font-weight: 800;
+                color: #FFFFFF;
+                margin-bottom: 20px;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
             }
 
-            /* Logo */
-            .logo-area {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 28px;
-            }
-
-            .logo-shadow {
-                display: inline-block;
-                padding: 16px 24px;
-                border-radius: 24px;
-                background-color: #FFFFFF;
-                box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10);
-            }
-
-            /* Subtítulo */
             .subtitle {
                 text-align: center;
-                font-size: 17px;
-                color: #4B5563;
+                font-size: 18px;
+                color: #374151;
+                margin-top: 34px;
                 margin-bottom: 34px;
             }
 
-            /* Labels */
+            .form-card {
+                background-color: rgba(255, 255, 255, 0.92);
+                border: 1px solid rgba(255, 255, 255, 0.65);
+                border-radius: 18px;
+                padding: 28px 30px 24px 30px;
+                box-shadow: 0 18px 45px rgba(120, 90, 180, 0.16);
+                backdrop-filter: blur(8px);
+            }
+
             label {
                 color: #111111 !important;
                 font-weight: 600 !important;
+                font-size: 15px !important;
             }
 
-            /* Inputs */
             div[data-baseweb="input"] {
                 background-color: transparent !important;
             }
 
             div[data-baseweb="input"] > div {
                 background-color: #FFFFFF !important;
-                border: 2px solid #111111 !important;
+                border: 1px solid #D1D5DB !important;
                 border-radius: 12px !important;
+                min-height: 52px !important;
                 color: #111111 !important;
+                box-shadow: none !important;
+            }
+
+            div[data-baseweb="input"] > div:focus-within {
+                border: 1.5px solid #BFA2DB !important;
+                box-shadow: 0 0 0 3px rgba(191, 162, 219, 0.22) !important;
             }
 
             div[data-baseweb="input"] input {
                 background-color: #FFFFFF !important;
                 color: #111111 !important;
                 caret-color: #111111 !important;
+                font-size: 16px !important;
             }
 
             div[data-baseweb="input"] svg {
-                color: #111111 !important;
-                fill: #111111 !important;
-            }
-
-            /* Botão centrado */
-            div[data-testid="stFormSubmitButton"] {
-                display: flex;
-                justify-content: center;
-                margin-top: 18px;
+                color: #6B7280 !important;
+                fill: #6B7280 !important;
             }
 
             div[data-testid="stFormSubmitButton"] > button {
-                width: 220px;
-                height: 52px;
-                border-radius: 12px;
+                width: 230px;
+                height: 54px;
+                border-radius: 14px;
                 border: none;
                 background-color: #BFA2DB;
                 color: white !important;
                 font-weight: 700;
-                font-size: 16px;
-                box-shadow: 0 8px 22px rgba(191, 162, 219, 0.45);
+                font-size: 17px;
+                box-shadow: 0 10px 24px rgba(120, 90, 180, 0.28);
             }
 
             div[data-testid="stFormSubmitButton"] > button:hover {
@@ -133,8 +130,8 @@ def show_login_page():
 
             .footer-text {
                 text-align: center;
-                margin-top: 28px;
-                font-size: 13px;
+                margin-top: 30px;
+                font-size: 14px;
                 color: #6B7280;
             }
         </style>
@@ -144,24 +141,26 @@ def show_login_page():
 
     logo_path = get_logo_path()
 
-    col1, col2, col3 = st.columns([1, 1.35, 1])
+    top_col1, top_col2, top_col3 = st.columns([1, 2, 1])
 
-    with col2:
-        st.markdown("<div class='login-card'>", unsafe_allow_html=True)
+    with top_col2:
+        st.markdown(
+            """
+            <div class="welcome-title">
+                Welcome to
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         if logo_path is not None:
-            st.markdown("<div class='logo-area'>", unsafe_allow_html=True)
-            st.markdown("<div class='logo-shadow'>", unsafe_allow_html=True)
-
-            st.image(str(logo_path), width=240)
-
-            st.markdown("</div>", unsafe_allow_html=True)
-            st.markdown("</div>", unsafe_allow_html=True)
+            logo_c1, logo_c2, logo_c3 = st.columns([1, 1.2, 1])
+            with logo_c2:
+                st.image(str(logo_path), use_container_width=True)
         else:
             st.markdown(
                 """
                 <div style="text-align:center; color:#4B5563; margin-bottom:24px;">
-                    Coloca o logo na mesma pasta do <b>app.py</b> com o nome:
                     <br><b>FIBRIVE_logo.png</b>
                 </div>
                 """,
@@ -177,11 +176,19 @@ def show_login_page():
             unsafe_allow_html=True
         )
 
+    form_col1, form_col2, form_col3 = st.columns([1.15, 2, 1.15])
+
+    with form_col2:
+        st.markdown("<div class='form-card'>", unsafe_allow_html=True)
+
         with st.form("login_form"):
             username = st.text_input("Utilizador")
             password = st.text_input("Password", type="password")
 
-            submitted = st.form_submit_button("Iniciar sessão")
+            btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 1])
+
+            with btn_col2:
+                submitted = st.form_submit_button("Iniciar sessão")
 
             if submitted:
                 if username == "admin" and password == "fibrive2026":
@@ -191,16 +198,16 @@ def show_login_page():
                 else:
                     st.error("Utilizador ou password incorretos.")
 
-        st.markdown(
-            """
-            <div class="footer-text">
-                Acesso reservado a profissionais autorizados
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
         st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <div class="footer-text">
+            Acesso reservado a profissionais autorizados
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 def check_authentication():
