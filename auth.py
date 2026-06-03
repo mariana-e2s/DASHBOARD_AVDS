@@ -1,5 +1,6 @@
 import streamlit as st
 from pathlib import Path
+import base64
 
 BASE_DIR = Path(__file__).parent
 
@@ -18,6 +19,11 @@ def get_logo_path():
             return path
 
     return None
+
+
+def image_to_base64(path):
+    with open(path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
 
 
 def show_login_page():
@@ -44,8 +50,8 @@ def show_login_page():
             }
 
             .block-container {
-                padding-top: 95px !important;
-                max-width: 1400px !important;
+                padding-top: 35px !important;
+                max-width: 1100px !important;
             }
 
             .welcome-title {
@@ -61,8 +67,8 @@ def show_login_page():
                 text-align: center;
                 font-size: 18px;
                 color: #374151;
-                margin-top: 34px;
-                margin-bottom: 34px;
+                margin-top: 8px;
+                margin-bottom: 24px;
             }
 
             .form-card {
@@ -154,9 +160,30 @@ def show_login_page():
         )
 
         if logo_path is not None:
-            logo_c1, logo_c2, logo_c3 = st.columns([1, 1.2, 1])
-            with logo_c2:
-                st.image(str(logo_path), use_container_width=True)
+            logo_base64 = image_to_base64(logo_path)
+
+            st.markdown(
+                f"""
+                <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    margin-top: 18px;
+                    margin-bottom: 28px;
+                ">
+                    <img src="data:image/png;base64,{logo_base64}"
+                         style="
+                            width: 280px;
+                            max-width: 80%;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                         ">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         else:
             st.markdown(
                 """
