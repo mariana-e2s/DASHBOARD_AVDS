@@ -8,9 +8,6 @@ BASE_DIR = Path(__file__).parent
 def get_logo_path():
     possible_names = [
         "FIBRIVE_logo.png",
-        "logo_fibrive.png",
-        "fibrive_logo.png",
-        "logo.png"
     ]
 
     for name in possible_names:
@@ -50,8 +47,13 @@ def show_login_page():
             }
 
             .block-container {
-                padding-top: 35px !important;
+                padding-top: 28px !important;
                 max-width: 1100px !important;
+            }
+
+            .brand-area {
+                text-align: center;
+                margin-bottom: 18px;
             }
 
             .welcome-title {
@@ -59,15 +61,31 @@ def show_login_page():
                 font-size: 34px;
                 font-weight: 800;
                 color: #FFFFFF;
-                margin-bottom: 20px;
+                margin-bottom: -4px;
+                line-height: 1.1;
                 text-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            }
+
+            .logo-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+
+            .logo-wrapper img {
+                width: 320px;
+                max-width: 86%;
+                display: block;
             }
 
             .subtitle {
                 text-align: center;
                 font-size: 18px;
                 color: #374151;
-                margin-top: 8px;
+                margin-top: 4px;
                 margin-bottom: 24px;
             }
 
@@ -116,22 +134,32 @@ def show_login_page():
                 fill: #6B7280 !important;
             }
 
+            div[data-testid="stFormSubmitButton"] {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin-top: 22px !important;
+            }
+
             div[data-testid="stFormSubmitButton"] > button {
-                width: 230px;
-                height: 54px;
-                border-radius: 14px;
-                border: none;
-                background-color: #BFA2DB;
+                width: 230px !important;
+                height: 54px !important;
+                border-radius: 14px !important;
+                border: none !important;
+                background-color: #BFA2DB !important;
                 color: white !important;
-                font-weight: 700;
-                font-size: 17px;
-                box-shadow: 0 10px 24px rgba(120, 90, 180, 0.28);
+                font-weight: 700 !important;
+                font-size: 17px !important;
+                box-shadow: 0 10px 24px rgba(120, 90, 180, 0.28) !important;
+                margin: 0 auto !important;
+                display: block !important;
             }
 
             div[data-testid="stFormSubmitButton"] > button:hover {
-                background-color: #8E7CC3;
+                background-color: #8E7CC3 !important;
                 color: white !important;
-                border: none;
+                border: none !important;
             }
 
             .footer-text {
@@ -150,6 +178,8 @@ def show_login_page():
     top_col1, top_col2, top_col3 = st.columns([1, 2, 1])
 
     with top_col2:
+        st.markdown("<div class='brand-area'>", unsafe_allow_html=True)
+
         st.markdown(
             """
             <div class="welcome-title">
@@ -164,22 +194,8 @@ def show_login_page():
 
             st.markdown(
                 f"""
-                <div style="
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    margin-top: 18px;
-                    margin-bottom: 28px;
-                ">
-                    <img src="data:image/png;base64,{logo_base64}"
-                         style="
-                            width: 280px;
-                            max-width: 80%;
-                            display: block;
-                            margin-left: auto;
-                            margin-right: auto;
-                         ">
+                <div class="logo-wrapper">
+                    <img src="data:image/png;base64,{logo_base64}">
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -193,6 +209,8 @@ def show_login_page():
                 """,
                 unsafe_allow_html=True
             )
+
+        st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown(
             """
@@ -212,10 +230,7 @@ def show_login_page():
             username = st.text_input("Utilizador")
             password = st.text_input("Password", type="password")
 
-            btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 1])
-
-            with btn_col2:
-                submitted = st.form_submit_button("Iniciar sessão")
+            submitted = st.form_submit_button("Iniciar sessão")
 
             if submitted:
                 if username == "admin" and password == "fibrive2026":
