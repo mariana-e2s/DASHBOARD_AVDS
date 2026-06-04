@@ -38,13 +38,6 @@ def show_user_info(user):
         unsafe_allow_html=True
     )
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric("ID do paciente", user.get(USER_ID_FIELD, "N/A"))
-
-    with col2:
-        st.metric("Idade", user.get(USER_AGE_FIELD, "N/A"))
 
 
 def show_patient_summary_cards(sono_df, exercicio_df, dor_df, medicacao_df):

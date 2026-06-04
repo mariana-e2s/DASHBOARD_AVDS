@@ -21,11 +21,24 @@ def show_sono_chart(user_doc_ref):
 
     st.dataframe(sono_df, use_container_width=True)
 
-    fig = px.scatter(
+    if "Horas de Sono" not in sono_df.columns or "Despertares Noturnos" not in sono_df.columns:
+        st.info("Os campos necessários para gerar o gráfico de sono não existem nos dados.")
+        return
+
+    sono_df["Horas de Sono"] = pd.to_numeric(sono_df["Horas de Sono"], errors="coerce")
+    sono_df["Despertares Noturnos"] = pd.to_numeric(sono_df["Despertares Noturnos"], errors="coerce")
+
+    sono_df = sono_df.dropna(subset=["Horas de Sono", "Despertares Noturnos"])
+
+    if sono_df.empty:
+        st.info("Não existem valores numéricos suficientes para gerar o gráfico de sono.")
+        return
+
+    fig = px.line(
         sono_df,
         x="Horas de Sono",
         y="Despertares Noturnos",
-        size="Despertares Noturnos",
+        markers=True,
         title="Relação entre horas de sono e despertares noturnos"
     )
 
@@ -38,7 +51,8 @@ def show_sono_chart(user_doc_ref):
     )
 
     fig.update_traces(
-        marker=dict(color="#8E7CC3", size=12)
+        line=dict(color="#BFA2DB", width=4),
+        marker=dict(color="#8E7CC3", size=10)
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -50,33 +64,10 @@ def show_exercicio_chart(user_doc_ref):
     exercicio_df = to_dataframe(get_user_exercicios_by_user(user_doc_ref))
 
     if exercicio_df.empty:
-        st.info("Este paciente ainda não tem exercícios associados.")
+        st.info("Este paciente ainda não tem exercícios concluídos.")
         return
 
     st.dataframe(exercicio_df, use_container_width=True)
-
-    if "Dificuldade" not in exercicio_df.columns or "Qualidade de Execução" not in exercicio_df.columns:
-        st.info("Ainda não existem dados suficientes para gerar o gráfico de exercício.")
-        return
-
-    fig = px.bar(
-        exercicio_df,
-        x="Dificuldade",
-        y="Qualidade de Execução",
-        title="Qualidade de execução por dificuldade"
-    )
-
-    fig.update_layout(
-        xaxis_title="Dificuldade",
-        yaxis_title="Qualidade de execução",
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        font=dict(color="#111827")
-    )
-
-    fig.update_traces(marker_color="#BFA2DB")
-
-    st.plotly_chart(fig, use_container_width=True)
 
 
 def show_dor_chart(user_doc_ref):
@@ -89,6 +80,17 @@ def show_dor_chart(user_doc_ref):
         return
 
     st.dataframe(dor_df, use_container_width=True)
+
+    if "Localização" not in dor_df.columns or "Intensidade" not in dor_df.columns:
+        st.info("Os campos necessários para gerar o gráfico de dor não existem nos dados.")
+        return
+
+    dor_df["Intensidade"] = pd.to_numeric(dor_df["Intensidade"], errors="coerce")
+    dor_df = dor_df.dropna(subset=["Intensidade"])
+
+    if dor_df.empty:
+        st.info("Não existem valores numéricos suficientes para gerar o gráfico de dor.")
+        return
 
     fig = px.bar(
         dor_df,
@@ -137,8 +139,14 @@ def show_sono_dor_relation(sono_df, dor_df):
 
     relation_df = pd.DataFrame(
         {
-            "Horas de Sono": pd.to_numeric(sono_df["Horas de Sono"].head(min_len), errors="coerce"),
-            "Intensidade da Dor": pd.to_numeric(dor_df["Intensidade"].head(min_len), errors="coerce"),
+            "Horas de Sono": pd.to_numeric(
+                sono_df["Horas de Sono"].head(min_len),
+                errors="coerce"
+            ),
+            "Intensidade da Dor": pd.to_numeric(
+                dor_df["Intensidade"].head(min_len),
+                errors="coerce"
+            ),
         }
     ).dropna()
 
@@ -146,10 +154,11 @@ def show_sono_dor_relation(sono_df, dor_df):
         st.info("Não existem valores numéricos suficientes para gerar o gráfico.")
         return
 
-    fig = px.scatter(
+    fig = px.line(
         relation_df,
         x="Horas de Sono",
         y="Intensidade da Dor",
+        markers=True,
         title="Relação entre horas de sono e intensidade da dor"
     )
 
@@ -161,6 +170,9 @@ def show_sono_dor_relation(sono_df, dor_df):
         font=dict(color="#111827")
     )
 
-    fig.update_traces(marker=dict(color="#8E7CC3", size=10))
+    fig.update_traces(
+        line=dict(color="#BFA2DB", width=4),
+        marker=dict(color="#8E7CC3", size=10)
+    )
 
     st.plotly_chart(fig, use_container_width=True)

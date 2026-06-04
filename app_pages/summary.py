@@ -12,6 +12,18 @@ from utils.data_utils import (
 from components.layout import show_page_header
 
 
+def render_metric_card(title, value, extra_class=""):
+    st.markdown(
+        f"""
+        <div class="metric-card {extra_class}">
+            <p>{title}</p>
+            <h2>{value}</h2>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 def show_general_summary(users):
     show_page_header(
         "Resumo Geral",
@@ -63,32 +75,40 @@ def show_general_summary(users):
     media_geral_dor = sum(dores) / len(dores) if dores else None
     media_geral_sono = sum(sonos) / len(sonos) if sonos else None
 
+    alerta_class = "alert-card-red" if total_alertas > 0 else "alert-card-green"
+
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.metric("Pacientes", total_pacientes)
+        render_metric_card("Pacientes", total_pacientes)
 
     with col2:
-        st.metric("Alertas ativos", total_alertas)
+        render_metric_card("Alertas ativos", total_alertas, alerta_class)
 
     with col3:
-        st.metric("Dor média geral", f"{media_geral_dor:.1f}/10" if media_geral_dor is not None else "Sem dados")
+        render_metric_card(
+            "Dor média geral",
+            f"{media_geral_dor:.1f}/10" if media_geral_dor is not None else "Sem dados"
+        )
 
     with col4:
-        st.metric("Sono médio geral", f"{media_geral_sono:.1f} h" if media_geral_sono is not None else "Sem dados")
+        render_metric_card(
+            "Sono médio geral",
+            f"{media_geral_sono:.1f} h" if media_geral_sono is not None else "Sem dados"
+        )
 
     st.divider()
 
     col5, col6, col7 = st.columns(3)
 
     with col5:
-        st.metric("Pacientes com dor elevada", pacientes_dor_alta)
+        render_metric_card("Pacientes com dor elevada", pacientes_dor_alta)
 
     with col6:
-        st.metric("Pacientes com sono baixo", pacientes_sono_baixo)
+        render_metric_card("Pacientes com sono baixo", pacientes_sono_baixo)
 
     with col7:
-        st.metric("Pacientes sem registos", pacientes_sem_registos)
+        render_metric_card("Pacientes sem registos", pacientes_sem_registos)
 
     st.divider()
 

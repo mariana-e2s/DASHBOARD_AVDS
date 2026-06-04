@@ -89,8 +89,6 @@ def generate_patient_pdf_report(
 
     nome = get_user_display_name(user)
     email = user.get(USER_EMAIL_FIELD, "N/A")
-    idade = user.get(USER_AGE_FIELD, "N/A")
-    user_id = user.get(USER_ID_FIELD, "N/A")
 
     sono_df, exercicio_df, dor_df, medicacao_df = get_patient_dataframes(user_doc_ref)
 
@@ -107,8 +105,6 @@ def generate_patient_pdf_report(
     patient_data = [
         ["Nome", nome],
         ["Email", email],
-        ["Idade", str(idade)],
-        ["ID do paciente", str(user_id)],
         ["Estado clínico", status],
         ["Motivo", reason],
         ["Data do relatório", data_relatorio],

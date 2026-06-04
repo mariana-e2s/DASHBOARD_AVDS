@@ -47,6 +47,53 @@ def apply_styles():
                 margin-bottom: 28px;
             }
 
+            /* -------------------- CARDS DOS INDICADORES -------------------- */
+
+            .metric-card {
+                background-color: #FFFFFF;
+                border: 1px solid #E5E7EB;
+                border-radius: 18px;
+                padding: 22px 24px;
+                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+                min-height: 115px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .metric-card p {
+                color: #6B7280;
+                font-size: 15px;
+                font-weight: 600;
+                margin: 0 0 12px 0;
+            }
+
+            .metric-card h2 {
+                color: #111827;
+                font-size: 34px;
+                font-weight: 800;
+                margin: 0;
+                line-height: 1.1;
+            }
+
+            .alert-card-red {
+                border: 2px solid #EF4444 !important;
+            }
+
+            .alert-card-red h2 {
+                color: #DC2626 !important;
+            }
+
+            .alert-card-green {
+                border: 2px solid #22C55E !important;
+            }
+
+            .alert-card-green h2 {
+                color: #16A34A !important;
+            }
+
+            /* -------------------- PATIENT CARD -------------------- */
+
             .patient-card {
                 background-color: #FFFFFF;
                 border: 1px solid #E5E7EB;
@@ -104,6 +151,8 @@ def apply_styles():
                 text-decoration: underline;
             }
 
+            /* -------------------- STATUS CARD -------------------- */
+
             .status-card {
                 background-color: #FFFFFF;
                 border: 1px solid #E5E7EB;
@@ -140,6 +189,8 @@ def apply_styles():
                 font-weight: 800;
             }
 
+            /* -------------------- ST.METRIC NATIVO -------------------- */
+
             [data-testid="stMetric"] {
                 background-color: #FFFFFF;
                 border: 1px solid #E5E7EB;
@@ -158,12 +209,20 @@ def apply_styles():
                 font-weight: 800;
             }
 
+            /* -------------------- INPUTS / SELECTS -------------------- */
+
             div[data-baseweb="select"] > div {
                 background-color: #FFFFFF !important;
                 border: 1.5px solid #D1D5DB !important;
                 border-radius: 12px !important;
                 color: #111827 !important;
             }
+
+            input, textarea {
+                color: #111827 !important;
+            }
+
+            /* -------------------- BOTÕES -------------------- */
 
             div.stButton > button,
             div[data-testid="stDownloadButton"] > button {
@@ -180,6 +239,8 @@ def apply_styles():
                 color: white !important;
                 border: none;
             }
+
+            /* -------------------- ALERTAS / TABELAS -------------------- */
 
             [data-testid="stAlert"] {
                 border-radius: 14px;
